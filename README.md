@@ -5,12 +5,12 @@ Generate Kicad .pcb file using Python
 
 There is no requirement.
 
-This project include the file sexpr.py from the project _kicad-library-utils_ (https://github.com/KiCad/kicad-library-utils)
+This project include the file *sexpr.py* from the project *kicad-library-utils* (https://github.com/KiCad/kicad-library-utils)
 
 
 #Installation
 
-No installation, just copy the _kicadpcb_ folder in your application folder
+No installation, just copy the *kicadpcb* folder in your application folder
 
 # Example
 
@@ -20,6 +20,6 @@ cd examples
 python example.py
 ```
 
-Will generate the file tst.kicad_pcb, tath can be opened in Kicad.
+Will generate the file *tst.kicad_pcb*, that can be opened in Kicad.
 
 
