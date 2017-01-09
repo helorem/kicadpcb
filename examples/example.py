@@ -3,9 +3,9 @@ from kicadpcb import *
 if __name__ == "__main__":
 
     # -- Load kicad footprints
-    foot1 = Footprint("/usr/share/kicad/modules/Resistors_ThroughHole.pretty/Resistor_Array_SIP8.kicad_mod")
-    foot2 = Footprint("/usr/share/kicad/modules/Resistors_ThroughHole.pretty/Resistor_TO-220_Horizontal_LargePads.kicad_mod")
-    foot3 = Footprint("/usr/share/kicad/modules/Resistors_ThroughHole.pretty/Resistor_Horizontal_RM10mm.kicad_mod")
+    foot1 = Footprint(constants.KICAD_MODULE_FOLDER + "/Resistors_ThroughHole.pretty/Resistor_Array_SIP8.kicad_mod")
+    foot2 = Footprint(constants.KICAD_MODULE_FOLDER + "/Resistors_ThroughHole.pretty/Resistor_TO-220_Horizontal_LargePads.kicad_mod")
+    foot3 = Footprint(constants.KICAD_MODULE_FOLDER + "/Resistors_ThroughHole.pretty/Resistor_Horizontal_RM10mm.kicad_mod")
 
     # -- Instantiate components
     component1 = Component(foot1)

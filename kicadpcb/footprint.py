@@ -1,19 +1,6 @@
 import math
 import sexpr
-
-def sexpr2dict(data, headers):
-    key = data[0]
-    if key not in headers:
-        return key, data[1:]
-    res = {}
-    for i in xrange(1, len(data)):
-        item = data[i]
-        if type(item) == type([]):
-            sub_key, val = sexpr2dict(item, headers)
-            res[sub_key] = val
-        else:
-            res[headers[key][i - 1]] = item
-    return key, res
+import functions
 
 class Footprint:
     def __init__(self, filename):
@@ -32,22 +19,22 @@ class Footprint:
 
         headers = {
             "pad" : ['number', 'type', 'shape'],
-            "fp_line" : [],
-            "fp_circle" : [],
-            "fp_arc" : [],
             "fp_text" : ['id', 'content'],
             "model" : ['file'],
             "module": ["name"]
         }
 
-        for sexpr_item in self.sexpr_data:
-            key, item = sexpr2dict(sexpr_item, headers)
-            if key == "fp_line":
-                self._read_line(item)
-            elif key == "fp_circle":
-                self._read_circle(item)
-            elif key == "pad":
-                self._read_pad(item)
+        key, sexpr_dict = functions.sexpr2dict(self.sexpr_data, headers)
+        for key, items in sexpr_dict.iteritems():
+            if type(items) != type([]):
+                items = [items]
+            for item in items:
+                if key == "fp_line":
+                    self._read_line(item)
+                elif key == "fp_circle":
+                    self._read_circle(item)
+                elif key == "pad":
+                    self._read_pad(item)
 
         self.w = self.max_x - self.min_x
         self.h = self.max_y - self.min_y
