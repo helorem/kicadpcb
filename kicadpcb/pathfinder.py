@@ -109,7 +109,7 @@ class PathFinder:
             y += constants.GRID
         self.points = res_points
 
-        print len(self.points), "points"
+        print len(self.points), "points", min_x, min_y, max_x, max_y
         for pad, pt in pad_points.iteritems():
             pad_links = []
             done_links = [pt]
@@ -166,39 +166,31 @@ class PathFinder:
         return True
 
     def _search(self, pts, source, target):
-        if not pts:
-            return None
-        """
-        out = []
-        for pt in pts:
-            out.append("(%d,%d,%d)" % (pt.x, pt.y, pt.val))
-        print " ".join(out)
-        """
         pt = pts.pop(0)
-        if pt == target:
-            return self._make_result(pt, [], target, source)
-        #print "test", pt, pt.val, target
-        for link in pt.links:
-            if link.pad in (None, target.pad, source.pad):
-                if self.test_link_valid(pt, link):
-                    if link.status != "entry":
-                        link_val = pt.val + pt.get_link_cost(link)
-                        if link.val == 0 or link.val > link_val:
-                            link.val = link_val
-                    if not link.locked:
-                        link.lock()
-                        # insert
-                        inserted = False
-                        for i in xrange(len(pts) - 1, 0, -1):
-                            fpt = pts[i]
-                            if fpt.val <= link.val:
-                                pts.insert(i + 1, link)
-                                inserted = True
-                                break
-                        if not inserted:
-                            pts.insert(0, link)
-        res = self._search(pts, source, target)
-        return res
+        while pt:
+            if pt == target:
+                return self._make_result(pt, [], target, source)
+            #print "test", pt, pt.val, target
+            for link in pt.links:
+                if link.pad in (None, target.pad, source.pad):
+                    if self.test_link_valid(pt, link):
+                        if link.status != "entry":
+                            link_val = pt.val + pt.get_link_cost(link)
+                            if link.val == 0 or link.val > link_val:
+                                link.val = link_val
+                        if not link.locked:
+                            link.lock()
+                            # insert
+                            inserted = False
+                            for i in xrange(len(pts) - 1, 0, -1):
+                                fpt = pts[i]
+                                if fpt.val <= link.val:
+                                    pts.insert(i + 1, link)
+                                    inserted = True
+                                    break
+                            if not inserted:
+                                pts.insert(0, link)
+            pt = pts.pop(0)
 
     def _reset_vals(self):
         for pt in self.points:
